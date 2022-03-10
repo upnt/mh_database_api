@@ -7,12 +7,13 @@ services:
       - "3306:3306"
     volumes:
       - "./db/init:/docker-entrypoint-initdb.d"
+    env_file:
+      - "./db/envfile.txt"
     command: --innodb-use-native-aio=0
   goapp:
     image: goapp
-    build: ./src
-    command: /bin/sh -c "go run main.go"
+    build: ./goapp
     stdin_open: true
     tty: true
     volumes:
-      - ./src:/app
+      - ./goapp:/app
