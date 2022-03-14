@@ -2,13 +2,14 @@ version: "3.9"
 services:
   mysql:
     image: mysql
-    build: ./db
+    build: ./mysql
     ports:
       - "3306:3306"
     volumes:
-      - "./db/init:/docker-entrypoint-initdb.d"
-    env_file:
-      - "./db/envfile.txt"
+      - "./mysql/init:/docker-entrypoint-initdb.d"
+      - "./mysql/db:/var/lib/mysql"
+    environment:
+      - MYSQL_ROOT_PASSWORD=rsQlQy4S12YY0
     command: --innodb-use-native-aio=0
   goapp:
     image: goapp
