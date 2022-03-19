@@ -2,19 +2,23 @@ version: "3.9"
 services:
   mysql:
     image: mysql
-    build: ./mysql
     ports:
       - "3306:3306"
     volumes:
       - "./mysql/init:/docker-entrypoint-initdb.d"
       - "./mysql/db:/var/lib/mysql"
     environment:
-      - MYSQL_ROOT_PASSWORD=rsQlQy4S12YY0
+      MYSQL_ROOT_PASSWORD: rsQlQy4S12YY0
     command: --innodb-use-native-aio=0
   goapp:
     image: goapp
-    build: ./goapp
+    build:
+      context: ./goapp
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
     stdin_open: true
     tty: true
     volumes:
       - ./goapp:/app
+    command: /bin/sh -c "go run main.go"
